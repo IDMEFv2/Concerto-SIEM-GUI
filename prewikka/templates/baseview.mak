@@ -59,6 +59,22 @@ $(function() {
                         return false;
                 }
 
+                if ( $(this).attr('force-ext-mini') ) {
+                        const features = [
+                            "popup=yes",
+                            "width=600",
+                            "height=700",
+                            "left=200",
+                            "top=120",
+                            "resizable=yes",
+                            "scrollbars=yes",
+                            "noopener",
+                            "noreferrer"
+                          ].join(",");
+                        window.open(url, "_blank", features);
+                        return false;
+                }
+
                 prewikka_ajax({ url: url, prewikka: { target: $(this).hasClass("no-widget") ? PrewikkaAjaxTarget.TAB : PrewikkaAjaxTarget.AUTO }});
                 return false;
         });
@@ -290,6 +306,10 @@ def _get_view_url(section, tabs):
             % endfor
 
                 <li role="separator" class="divider"></li>
+                <% url = url_for('InputPluginView.inputplugin', _default=None) %>
+                % if url:
+                <li><a href="${ url }" force-ext-mini="True">${ _("Import IDMEFv2") }</a></li>
+                % endif
                 <% url = url_for('About.about', _default=None) %>
                 % if url:
                 <li><a href="${ url }">${ _("About") }</a></li>

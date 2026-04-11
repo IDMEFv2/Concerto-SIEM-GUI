@@ -307,7 +307,11 @@ function tab_scroll_init() {
     var topmenu = $("#topmenu .topmenu_nav");
     var section = topmenu.find("ul.topmenu_section:visible");
     var tab = section.children("li.active");
-    var left = tab.offset().left - section.offset().left;
+    if ( tab.offset() ) {
+        var left = tab.offset().left - section.offset().left;
+    } else {
+        return false;
+    }
     if ( left < 0 || left + tab.width() > $(".topmenu_content").width() ) {
         section.scrollLeft(0);
         while ( tab.offset().left - section.offset().left + tab.width() > $(".topmenu_content").width() ) {
