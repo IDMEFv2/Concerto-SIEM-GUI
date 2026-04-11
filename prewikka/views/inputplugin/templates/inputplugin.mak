@@ -27,6 +27,13 @@
                    <span class="badge pull-right"></span>
              </div>
            </div>
+           <div class="form-group">
+             <label for="step_time" class="col-sm-2 control-label">Step (in ms)</label>
+             <div class="col-sm-6">
+               <label class="control-label">
+                 <input type="text" id="step_time" name="step_time" value="0" class="form-control">
+             </div>
+           </div>
              <div class="form-group">
                <div class="col-sm-10"></div>
                <div class="col-sm-1">
