@@ -69,19 +69,30 @@ class InputPluginView(view.View):
 
     @view.route("/inputplugin/delete_file", methods=["POST"], permissions=[N_("IDMEF_VIEW")])
     def inputplugin_delete_file(self):
-        self._db.delete_file(env.request.parameters["selfile"])
+        self._db.delete_file(env.request.parameters["selfile"].split('_')[0])
         return response.PrewikkaResponse({"type": "reload", "target": "view"})
 
     @view.route("/inputplugin/run_file", methods=["POST"], permissions=[N_("IDMEF_VIEW")])
     def inputplugin_run_file(self):
-        data = self._db.get_files(env.request.parameters["selfile"])
+        data = self._db.get_files(env.request.parameters["selfile"].split('_')[0])
         step = int(env.request.parameters.get("step_time"))
         if step < 0 or step > 100000:
             step = 0
-        ctime = True if env.request.parameters.get("create_time") else False
         for js in json.loads(data[0][2]):
-            if ctime:
+            if env.request.parameters.get("create_time"):
                 js["CreateTime"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
             self.insert_idmefv2(js)
             time.sleep(step/1000)
         return response.PrewikkaResponse({"type": "reload", "target": "view"})
+
+    @view.route("/inputplugin/run_step", methods=["GET"], permissions=[N_("IDMEF_VIEW")])
+    def inputplugin_run_step(self):
+        data = self._db.get_files(env.request.parameters["selfile"].split('_')[0])
+        n_step = int(env.request.parameters.get("n_step"))-1
+        i = json.loads(data[0][2])
+        if n_step < 0 or n_step > len(i):
+            return response.PrewikkaResponse({"type": "reload", "target": "view"})
+        if env.request.parameters.get("create_time"):
+            i[n_step]["CreateTime"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+        self.insert_idmefv2(i[n_step])
+        return response.PrewikkaResponse({})
