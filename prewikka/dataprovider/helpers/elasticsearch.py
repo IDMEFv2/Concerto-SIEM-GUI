@@ -210,7 +210,7 @@ class ElasticsearchClient(object):
 
             r = r.get("root_cause")
             if parse_except:
-                err = N_("Malformed query.")
+                err = N_("Malformed query." + json.dumps(data))
             elif r and "Result window is too large" in r[0]["reason"]:
                 # FIXME #3733 Remove when cursors are implemented?
                 err = N_("Cannot further browse results. Please use a more specific filter.")
@@ -531,8 +531,14 @@ class ElasticsearchQuery(object):
             date = env.request.user.timezone.localize(date)
 
         utc_time = self._mapping.format_datetime(date.astimezone(dateutil.tz.tzutc()))
-        operator = self._mapping.to_operator(operator.name)
-        self._query["query"]["bool"]["filter"].append(self._range_filter(self._time_field, operator, utc_time))
+        if operator.name == "=" or operator.name == "==":
+            operator = self._mapping.to_operator(">=")
+            self._query["query"]["bool"]["filter"].append(self._range_filter(self._time_field, operator, utc_time))
+            operator = self._mapping.to_operator("<=")
+            self._query["query"]["bool"]["filter"].append(self._range_filter(self._time_field, operator, utc_time))
+        else:
+            operator = self._mapping.to_operator(operator.name)
+            self._query["query"]["bool"]["filter"].append(self._range_filter(self._time_field, operator, utc_time))
 
     def _add_order(self, field):
         if self._mapping.to_es_keyword(field.field) and field.field != 'raw_message':
