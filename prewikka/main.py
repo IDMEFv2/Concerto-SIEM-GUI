@@ -244,7 +244,7 @@ class Core(object):
         else:
             # The configured view does not exist. Fall back to "settings/my_account"
             # which does not require any specific permission.
-            url = request.get_baseurl() + "settings/my_account"
+            url = request.get_baseurl() + "idmefv2/forensic"
 
         return response.PrewikkaRedirectResponse(url)
 
