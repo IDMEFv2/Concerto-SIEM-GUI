@@ -1358,7 +1358,7 @@ msgstr ""
 #: prewikka/views/crontab/__init__.py:37
 #: prewikka/views/usermanagement/usermanagement.py:26
 msgid "USER_MANAGEMENT"
-msgstr "USER MANAGEMENET"
+msgstr "USER MANAGEMENT"
 
 #: prewikka/views/aboutplugin/__init__.py:43
 msgid "Apps: API"
