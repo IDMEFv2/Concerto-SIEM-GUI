@@ -112,70 +112,78 @@ class ProtocolChart(statistics.DiagramChart):
         return [list(self._get_data())]
 
     def _get_data(self):
-        criteria = env.request.menu.get_criteria() + (
-            Criterion("idmefv2.source.protocol", "=*", "udp") |
-            Criterion("idmefv2.source.protocol", "=*", "tcp"))
+        #criteria = env.request.menu.get_criteria() + (
+        #    Criterion("idmefv2.source.protocol", "=*", "udp") |
+        #    Criterion("idmefv2.source.protocol", "=*", "tcp"))
 
         try:
             results = env.dataprovider.query(
                 [
                     "idmefv2.target.port/group_by",
-                    "idmefv2.source.protocol/group_by",
-                    "idmefv2.target.service/group_by",
+        #            "idmefv2.source.protocol/group_by",
+        #            "idmefv2.target.service/group_by",
                     "count(1)/order_desc"
                 ],
-                criteria=criteria,
+        #        criteria=criteria,
                 limit=self.query[0].limit
             )
         except usergroup.PermissionDeniedError:
             results = []
-
         if not results:
             return
 
-        merge = {
-            _("n/a"): {},
-            "tcp": {},
-            "udp": {}
-        }
+        #merge = {
+        #    _("n/a"): {},
+        #    "tcp": {},
+        #    "udp": {}
+        #}
+        merge = {}
 
-        for port, protocol, service_name, count in results:
+        #for port, protocol, service_name, count in results:
+        for port, count in results:
             if not port:
                 continue
+            if int(port) not in merge:
+                merge[int(port)] = count
+            else:
+                merge[int(port)] += count
 
-            if protocol:
-                proto = set(["tcp", "udp"]) & set([p.lower() for p in protocol])
-                if len(proto) == 1:
-                    protocol = proto[0]
-                else:
-                    protocol = None
+            #if protocol:
+            #    proto = set(["tcp", "udp"]) & set([p.lower() for p in protocol])
+            #    if len(proto) == 1:
+            #        protocol = proto[0]
+            #    else:
+            #        protocol = None
 
-            if protocol not in merge:
-                protocol = _("n/a")
+            #if protocol not in merge:
+            #    protocol = _("n/a")
 
-            if not service_name:
-                service_name = _("Unknown service")
+            #if not service_name:
+            #    service_name = _("Unknown service")
 
-            port_info = (port, service_name)
+            #port_info = (port, service_name)
 
-            if port_info not in merge[protocol]:
-                merge[protocol][port_info] = 0
+            #if port_info not in merge[protocol]:
+            #    merge[protocol][port_info] = 0
 
-            merge[protocol][port_info] += count
-
+            #merge[protocol][port_info] += count
         results = []
-        for protocol, values in merge.items():
-            for port_info, count in values.items():
-                results.append((port_info[0], port_info[1], protocol, count))
+        for k, v in merge.items():
+            results.append((k, v))
+        #for protocol, values in merge.items():
+        #    for port_info, count in values.items():
+        #        results.append((port_info[0], port_info[1], protocol, count))
 
-        for port, service, protocol, count in sorted(results, key=operator.itemgetter(3), reverse=True):
+        #for port, service, protocol, count in sorted(results, key=operator.itemgetter(3), reverse=True):
+        for port, count in sorted(results, key=lambda x : x[1], reverse=True):
             criteria = Criterion("idmefv2.target.port", "=*", port)
             link = None
             linkview = env.viewmanager.get(datatype="idmefv2", keywords=["listing"])
             if linkview:
                 link = linkview[-1].make_url(criteria=criteria, **env.request.menu.get_parameters())
 
-            yield RendererItem(count, ("%d (%s) / %s" % (port, service, protocol),), link)
+            #yield RendererItem(count, ("%d (%s) / %s" % (port, service, protocol),), link)
+            yield RendererItem(count, ("%d" % (port),), link)
 
 
 class AlertStats(StaticStats):
@@ -231,12 +239,6 @@ class AlertStats(StaticStats):
         }]
 
     _SOURCE_GRAPHS = [
-        {
-            "title": N_("Top {limit} Sources Trend"),
-            "category": "chronology",
-            "path": "idmefv2.source(0).ip",
-            "width": 12,
-        },
         {
             "title": N_("Top {limit} Source Addresses"),
             "category": "diagram",
@@ -352,14 +354,6 @@ class AlertStats(StaticStats):
             'aggregate': 'count(idmefv2.target.ip)',
             'criteria': _MONITORING_CRITERIA['Simple'],
             'legend': False,
-        },
-        {
-            'category': 'chronology',
-            'title': N_('Number of machines/devices per analyzer category (HIDS, NIDS)'),
-            'path': 'idmefv2.analyzer.category',
-            'criteria': _MONITORING_CRITERIA['Analyzer'],
-            'aggregate': 'count(idmefv2.target.ip)',
-            'legend': True,
         }]
 
     _CHARTS_INFOS = [(N_('Categorizations'), None, _CATEGORIZATION_GRAPHS),
