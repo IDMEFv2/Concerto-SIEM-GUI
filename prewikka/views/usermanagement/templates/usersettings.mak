@@ -49,7 +49,7 @@ text = { "User": { "info": _("Account information"),
       });
     </script>
 
-    <form class="form-horizontal usersettings " action="${ target }" method="POST">
+    <form class="form-horizontal usersettings " action="${ target }" method="POST" autocomplete="off">
       % if object:
       <input type="hidden" name="name" value="${ object.name }"/>
       % endif
