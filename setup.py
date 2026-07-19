@@ -281,12 +281,14 @@ setup(
             'Statistics = prewikka.views.statistics:Statistics',
             'UserManagement = prewikka.views.usermanagement:UserManagement',
             'InputPlugin = prewikka.views.inputplugin:InputPlugin',
+            'ProhibitiveFilter = prewikka.plugins.prohibitivefilter:ProhibitiveFilter',
         ],
         'prewikka.updatedb': [
             'prewikka = prewikka.sql',
             'prewikka.auth.dbauth = prewikka.auth.dbauth.sql',
             'prewikka.plugins.filter = prewikka.plugins.filter.sql',
             'prewikka.views.inputplugin = prewikka.views.inputplugin.sql',
+            'prewikka.plugins.prohibitivefilter = prewikka.plugins.prohibitivefilter.sql',
         ]
     },
     package_data={
@@ -305,6 +307,7 @@ setup(
             "sql/*.py",
             "templates/*.mak"
         ],
+        'prewikka.plugins.prohibitivefilter': ["sql/*.py"],
         'prewikka.auth.dbauth': ["sql/*.py"],
         'prewikka.renderer.chartjs': ["htdocs/js/*.js"],
         'prewikka.session.loginform': ["htdocs/css/*.css"],
