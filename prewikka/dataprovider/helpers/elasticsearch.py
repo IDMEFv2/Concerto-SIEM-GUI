@@ -480,7 +480,7 @@ class ElasticsearchQuery(object):
         elif field == self._time_field:
             self._add_time_to_query(criteria.right, criteria.operator)
 
-        elif is_instance(env.dataprovider.get_path_type("%s.%s" % (self._type, field), type=self._type), datetime.datetime):
+        elif isinstance(env.dataprovider.get_path_type("%s.%s" % (self._type, field), type=self._type), datetime.datetime):
             self._add_time_to_query(criteria.right, criteria.operator, field)
 
         else:
@@ -524,7 +524,9 @@ class ElasticsearchQuery(object):
 
     # Don't search with a timestamp, Elasticsearch does not apply
     # the timezone conversion on a timestamp, resulting in incorrect return values
-    def _add_time_to_query(self, date, operator, timefield = self._time_field):
+    def _add_time_to_query(self, date, operator, timefield = None):
+        if timefield is None:
+            timefield = self._time_field
         if not isinstance(date, datetime.datetime):
             # This can happen when the criterion is parsed from a string (e.g. webservice),
             # or JSON-deserialized (e.g. replay by criteria)
