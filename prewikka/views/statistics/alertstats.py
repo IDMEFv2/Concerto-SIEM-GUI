@@ -227,7 +227,7 @@ class AlertStats(StaticStats):
         {
             "title": N_("Top {limit} Alert Impact Types"),
             "category": "diagram",
-            "path": "idmefv2.analyzer.type",
+            "path": "idmefv2.type",
         }]
 
     _SOURCE_GRAPHS = [
@@ -329,8 +329,8 @@ class AlertStats(StaticStats):
         },
         {
             'category': 'chronology',
-            'title': N_('Number of alerts per analyzer type'),
-            'path': ['idmefv2.analyzer.type'],
+            'title': N_('Number of alerts per analyzer category'),
+            'path': ['idmefv2.analyzer.category'],
             'criteria': _MONITORING_CRITERIA['Simple'],
         },
         {
@@ -355,8 +355,8 @@ class AlertStats(StaticStats):
         },
         {
             'category': 'chronology',
-            'title': N_('Number of machines/devices per analyzer type (HIDS, NIDS)'),
-            'path': 'idmefv2.analyzer.type',
+            'title': N_('Number of machines/devices per analyzer category (HIDS, NIDS)'),
+            'path': 'idmefv2.analyzer.category',
             'criteria': _MONITORING_CRITERIA['Analyzer'],
             'aggregate': 'count(idmefv2.target.ip)',
             'legend': True,
