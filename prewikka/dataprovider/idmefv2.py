@@ -36,6 +36,9 @@ from prewikka import version
 _IDMEFv2_PATHS = {
     "idmefv2": {
         "create_time": datetime.datetime,
+        "start_time": datetime.datetime,
+        "end_time": datetime.datetime,
+        "report_time": datetime.datetime,
     }
 }
 

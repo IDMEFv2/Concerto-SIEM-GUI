@@ -480,6 +480,9 @@ class ElasticsearchQuery(object):
         elif field == self._time_field:
             self._add_time_to_query(criteria.right, criteria.operator)
 
+        elif is_instance(env.dataprovider.get_path_type("%s.%s" % (self._type, field), type=self._type), datetime.datetime):
+            self._add_time_to_query(criteria.right, criteria.operator, field)
+
         else:
             op = self.OPERATOR_MAP.get(criteria.operator, None)
             if op is None:
@@ -521,7 +524,7 @@ class ElasticsearchQuery(object):
 
     # Don't search with a timestamp, Elasticsearch does not apply
     # the timezone conversion on a timestamp, resulting in incorrect return values
-    def _add_time_to_query(self, date, operator):
+    def _add_time_to_query(self, date, operator, timefield = self._time_field):
         if not isinstance(date, datetime.datetime):
             # This can happen when the criterion is parsed from a string (e.g. webservice),
             # or JSON-deserialized (e.g. replay by criteria)
@@ -533,12 +536,12 @@ class ElasticsearchQuery(object):
         utc_time = self._mapping.format_datetime(date.astimezone(dateutil.tz.tzutc()))
         if operator.name == "=" or operator.name == "==":
             operator = self._mapping.to_operator(">=")
-            self._query["query"]["bool"]["filter"].append(self._range_filter(self._time_field, operator, utc_time))
+            self._query["query"]["bool"]["filter"].append(self._range_filter(timefield, operator, utc_time))
             operator = self._mapping.to_operator("<=")
-            self._query["query"]["bool"]["filter"].append(self._range_filter(self._time_field, operator, utc_time))
+            self._query["query"]["bool"]["filter"].append(self._range_filter(timefield, operator, utc_time))
         else:
             operator = self._mapping.to_operator(operator.name)
-            self._query["query"]["bool"]["filter"].append(self._range_filter(self._time_field, operator, utc_time))
+            self._query["query"]["bool"]["filter"].append(self._range_filter(timefield, operator, utc_time))
 
     def _add_order(self, field):
         if self._mapping.to_es_keyword(field.field) and field.field != 'raw_message':
