@@ -101,7 +101,7 @@ class _IDMEFPlugin(DataProviderBackend):
         results = self._get_idents(criteria, limit, offset, order_by)
         return utils.CachingIterator(self._iterate_object(results))
 
-    @usergroup.permissions_required(["IDMEF_VIEW"])
+    @usergroup.permissions_required(["IDMEFV2_VIEW"])
     def get_values(self, paths, criteria, distinct, limit, offset):
 
         # FIXME: update libpreludedb to perform this automatically?

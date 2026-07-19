@@ -339,7 +339,7 @@ class TcpIpOptions(Table):
 
 
 class MessageSummary(Table, view.View):
-    view_permissions = [N_("IDMEF_VIEW")]
+    view_permissions = [N_("IDMEFV2_VIEW")]
     view_template = template.PrewikkaTemplate(__name__, 'templates/messagesummary.mak')
     plugin_htdocs = (("messagesummary", pkg_resources.resource_filename(__name__, 'htdocs')),)
 

@@ -164,7 +164,7 @@ class IDMEFQueryParser(datasearch.QueryParser):
 
 
 class IDMEFDataSearch(datasearch.DataSearch):
-    view_permissions = [N_("IDMEF_VIEW")]
+    view_permissions = [N_("IDMEFV2_VIEW")]
     expert_enabled = True
 
     def __init__(self, *args, **kwargs):

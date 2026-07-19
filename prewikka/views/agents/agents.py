@@ -143,7 +143,7 @@ class Agents(view.View):
                 ]
             }
 
-    @view.route("/agents/agents", methods=["GET", "POST"], permissions=[N_("IDMEF_VIEW")], help="#agents",
+    @view.route("/agents/agents", methods=["GET", "POST"], permissions=[N_("IDMEFV2_VIEW")], help="#agents",
                 menu=(N_("Monitoring"), N_("Agents")), parameters=GridParameters("agents"), datatype="heartbeat")
     def agents(self):
 
@@ -168,7 +168,7 @@ class Agents(view.View):
 
         return response.PrewikkaRedirectResponse(url_for(".agents"))
 
-    @view.route("/agents/analyze/<analyzerid>", permissions=[N_("IDMEF_VIEW")], help="#heartbeatanalyze")
+    @view.route("/agents/analyze/<analyzerid>", permissions=[N_("IDMEFV2_VIEW")], help="#heartbeatanalyze")
     def analyze(self, analyzerid):
         analyzer, heartbeat = self._get_analyzer(analyzerid)
         delta = heartbeat["create_time"] - utils.timeutil.now()

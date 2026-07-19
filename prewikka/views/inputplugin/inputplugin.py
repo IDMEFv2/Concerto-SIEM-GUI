@@ -56,23 +56,23 @@ class InputPluginView(view.View):
         url = "http://logstash:4690"
         resp = requests.post(url, headers={"Content-Type": "application/json"}, data=json.dumps(idmefv2))
 
-    @view.route("/inputplugin", methods=["GET"], permissions=[N_("IDMEF_VIEW")])
+    @view.route("/inputplugin", methods=["GET"], permissions=[N_("IDMEFV2_VIEW")])
     def inputplugin(self):
         dset = template.PrewikkaTemplate(__name__, "templates/inputplugin.mak").dataset()
         dset["idmefv2files"] = self._db.get_files()
         return dset.render()
 
-    @view.route("/inputplugin/add_file", methods=["POST"], permissions=[N_("IDMEF_VIEW")])
+    @view.route("/inputplugin/add_file", methods=["POST"], permissions=[N_("IDMEFV2_VIEW")])
     def inputplugin_add_file(self):
         self._db.add_file(env.request.parameters["file"].filename, env.request.parameters["file"].value)
         return response.PrewikkaResponse({"type": "reload", "target": "view"})
 
-    @view.route("/inputplugin/delete_file", methods=["POST"], permissions=[N_("IDMEF_VIEW")])
+    @view.route("/inputplugin/delete_file", methods=["POST"], permissions=[N_("IDMEFV2_VIEW")])
     def inputplugin_delete_file(self):
         self._db.delete_file(env.request.parameters["selfile"].split('_')[0])
         return response.PrewikkaResponse({"type": "reload", "target": "view"})
 
-    @view.route("/inputplugin/run_file", methods=["POST"], permissions=[N_("IDMEF_VIEW")])
+    @view.route("/inputplugin/run_file", methods=["POST"], permissions=[N_("IDMEFV2_VIEW")])
     def inputplugin_run_file(self):
         data = self._db.get_files(env.request.parameters["selfile"].split('_')[0])
         step = int(env.request.parameters.get("step_time"))
@@ -85,7 +85,7 @@ class InputPluginView(view.View):
             time.sleep(step/1000)
         return response.PrewikkaResponse({"type": "reload", "target": "view"})
 
-    @view.route("/inputplugin/run_step", methods=["GET"], permissions=[N_("IDMEF_VIEW")])
+    @view.route("/inputplugin/run_step", methods=["GET"], permissions=[N_("IDMEFV2_VIEW")])
     def inputplugin_run_step(self):
         data = self._db.get_files(env.request.parameters["selfile"].split('_')[0])
         n_step = int(env.request.parameters.get("n_step"))-1
