@@ -269,7 +269,8 @@ setup(
         'prewikka.views': [
             'About = prewikka.views.about:About',
             'AboutPlugin = prewikka.views.aboutplugin:AboutPlugin',
-            'Command = prewikkapro.views.command:Command',
+            'Command = prewikka.views.command:Command',
+            'Multitenancy = prewikka.views.multitenancy:Multitenancy',
             'IDMEFv2DataSearch = prewikka.views.datasearch.idmefv2:IDMEFv2DataSearch',
             'AlertStats = prewikka.views.statistics.alertstats:AlertStats',
             'CrontabView = prewikka.views.crontab:CrontabView',
@@ -288,6 +289,7 @@ setup(
             'prewikka = prewikka.sql',
             'prewikka.auth.dbauth = prewikka.auth.dbauth.sql',
             'prewikka.plugins.filter = prewikka.plugins.filter.sql',
+            'prewikka.views.multitenancy = prewikkapro.views.multitenancy.sql',
             'prewikka.views.inputplugin = prewikka.views.inputplugin.sql',
             'prewikka.plugins.prohibitivefilter = prewikka.plugins.prohibitivefilter.sql',
         ]
@@ -317,6 +319,7 @@ setup(
         "prewikka.views.idmefnav": ["htdocs/yaml/*.yml", "htdocs/graph/*"],
         'prewikka.views.riskoverview': ["htdocs/js/*.js"],
         'prewikka.views.statistics': ["htdocs/js/*.js", "htdocs/css/*.css"],
+        'prewikka.views.multitenancy': ["htdocs/js/*.js"],
         'prewikka.views.usermanagement': ["htdocs/js/*.js", "htdocs/css/*.css"],
         'prewikka.views.inputplugin': ["templates/*.mak","sql/*.py","htdocs/css/*.css","htdocs/js/*.js"],
     },
