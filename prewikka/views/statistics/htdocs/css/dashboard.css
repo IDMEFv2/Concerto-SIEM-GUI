@@ -1,0 +1,37 @@
+#add-widget-dialog p {
+    margin-bottom: 10px;
+}
+
+.list-group-item h4 {
+    font-size: 16px;
+}
+
+.query-panel h4 {
+    margin-top: -15px;
+    margin-bottom: 40px;
+}
+
+.add-instance {
+    float: right;
+    padding: 5px 10px;
+    margin-top: -6px;
+}
+
+.query-panel:not(.multiple) h4, .query-panel:not(.multiple) .add-instance {
+    display: none;
+}
+
+.category-chronology .instance > :nth-last-child(-n+3) {
+    display: none;
+}
+
+.panel-body > .widget-img {
+    width: 100%;
+    height: 100%;
+}
+
+.panel-body > .widget-img > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}

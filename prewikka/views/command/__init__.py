@@ -21,7 +21,6 @@ class Command(view.View, link.LinkManager):
     plugin_version = version.__version__
     plugin_copyright = version.__copyright__
     plugin_description = N_("Execution of system commands from the Prewikka console")
-    plugin_locale = version.__locale__
 
     view_permissions = [N_("COMMAND")]
 

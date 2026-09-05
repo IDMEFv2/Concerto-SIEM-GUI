@@ -33,9 +33,8 @@ class Multitenancy(view.View):
     plugin_description = N_("Multitenancy plugin for Managed Security Service Providers (MSSPs)")
     plugin_database_branch = version.__branch__
     plugin_database_version = "0"
-    plugin_locale = version.__locale__
     plugin_htdocs = (("multitenancy", pkg_resources.resource_filename(__name__, 'htdocs')),)
-    plugin_require = ["prewikkapro.plugins.prohibitivefilter:ProhibitiveFilter"]
+    plugin_require = ["prewikka.plugins.prohibitivefilter:ProhibitiveFilter"]
 
     view_permissions = [N_("TENANT_MANAGEMENT")]
 
