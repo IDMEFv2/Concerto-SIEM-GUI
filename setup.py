@@ -269,6 +269,7 @@ setup(
         'prewikka.views': [
             'About = prewikka.views.about:About',
             'AboutPlugin = prewikka.views.aboutplugin:AboutPlugin',
+            'Command = prewikkapro.views.command:Command',
             'IDMEFv2DataSearch = prewikka.views.datasearch.idmefv2:IDMEFv2DataSearch',
             'AlertStats = prewikka.views.statistics.alertstats:AlertStats',
             'CrontabView = prewikka.views.crontab:CrontabView',
