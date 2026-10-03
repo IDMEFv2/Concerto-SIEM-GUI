@@ -738,7 +738,7 @@ class DataSearch(view.View):
 
             resrows.append({"_rowId": text_type(i), "cell": cells})
 
-        return utils.viewhelpers.GridAjaxResponse(resrows, results.total, criteria=search.all_criteria).add_html_content(mainmenu.HTMLMainMenu(update=True))
+        return utils.viewhelpers.GridAjaxResponse(resrows, min(results.total, 10000), criteria=search.all_criteria).add_html_content(mainmenu.HTMLMainMenu(update=True))
 
     def ajax_details(self):
         tmpl = template.PrewikkaTemplate(__name__, "templates/details.mak")
