@@ -82,10 +82,9 @@ class PrewikkaResponse(object):
                 (
                     ("Content-Type", "text/html"),
                     ("Last-Modified", time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())),
-                    ("Expires", "Fri, 01 Jan 1999 00:00:00 GMT"),
-                    ("Cache-control", "no-store, no-cache, must-revalidate"),
-                    ("Cache-control", "post-check=0, pre-check=0"),
+                    ("Cache-Control", "no-cache, no-store, must-revalidate"),
                     ("Pragma", "no-cache"),
+                    ("Expires", "0"),
                 )
             )
 

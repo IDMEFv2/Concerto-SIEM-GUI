@@ -128,6 +128,15 @@ class WSGIRequest(request.Request):
         if not status_text:
             status_text = defined_status.get(code, "Unknown")
 
+        # Ensure HTML responses have strict no-cache headers for security
+        content_type = headers[0][1] if headers else ""
+        if content_type.startswith("text/html"):
+            headers = [
+                ("Cache-Control", "no-cache, no-store, must-revalidate"),
+                ("Pragma", "no-cache"),
+                ("Expires", "0")
+            ] + headers
+
         self._write = self._start_response("%d %s" % (code, status_text.encode("ISO-8859-1")), headers)
 
     def get_cookie(self):
