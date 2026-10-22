@@ -98,7 +98,7 @@ class Core(object):
         global _core_cache_lock
 
         if not path:
-            path = siteconfig.conf_dir + "/prewikka.conf"
+            path = siteconfig.conf_dir + "/concerto.conf"
 
         with _core_cache_lock:
             if path not in _core_cache:

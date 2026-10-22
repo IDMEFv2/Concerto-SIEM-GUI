@@ -268,7 +268,7 @@ class Config(MyConfigParser):
     def __init__(self, filename=None):
         MyConfigParser.__init__(self)
 
-        conf_filename = filename or siteconfig.conf_dir + "/prewikka.conf"
+        conf_filename = filename or siteconfig.conf_dir + "/concerto.conf"
         self.read(conf_filename)
 
         self.basedir = os.path.dirname(conf_filename)

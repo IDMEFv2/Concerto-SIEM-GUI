@@ -93,7 +93,7 @@ class my_install(install):
         install.finalize_options(self)
 
     def get_outputs(self):
-        tmp = [self.conf_prefix + "/prewikka.conf"] + install.get_outputs(self)
+        tmp = [self.conf_prefix + "/concerto.conf"] + install.get_outputs(self)
         return tmp
 
     def install_conf(self):
@@ -331,7 +331,7 @@ setup(
         "scripts/prewikka-httpd"
     ],
     conf_files={
-        "": ["conf/prewikka.conf", "conf/menu.yml"],
+        "": ["conf/concerto.conf", "conf/menu.yml"],
         "conf.d": ["conf/plugins/*.conf"]
     },
     cmdclass={
